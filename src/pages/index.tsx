@@ -1,14 +1,18 @@
+import Layout from "@/layout/layout";
 import { useState, useEffect } from "react";
-import { Data } from "./utils/data";
+import { Folder } from "./utils/types";
 
-export default function Home() {
-  const [filesSystem, setFileSystem] = useState<Data[]>([]);
+import filter from "./utils/sort";
+
+function Home() {
+  const [filesSystem, setFileSystem] = useState<Folder[]>([]);
 
   //fetch data from backend
   async function fetchFileSystem() {
     const fetchedData = await fetch("/api/getData").then((res) => res.json());
-    console.log(fetchedData);
-    setFileSystem(fetchedData);
+    const filteredData = filter(fetchedData);
+    console.log(filteredData);
+    setFileSystem(filteredData);
   }
 
   //fecth the data every 30 secs when user revisits the app window
@@ -29,5 +33,17 @@ export default function Home() {
     };
   }, []);
 
-  return;
+  return (
+    <>
+      <div>root</div>
+    </>
+  );
+}
+
+export default function () {
+  return (
+    <Layout>
+      <Home />
+    </Layout>
+  );
 }
