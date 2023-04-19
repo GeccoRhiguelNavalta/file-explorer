@@ -1,8 +1,16 @@
-import Layout from "@/layout/layout";
+import Layout from "../layout/layout";
 import { useState, useEffect } from "react";
 import { Folder } from "./utils/types";
-
 import filter from "./utils/sort";
+import LoadingSpinner from "@/components/loadingSpinner";
+
+export default function () {
+  return (
+    <Layout>
+      <Home />
+    </Layout>
+  );
+}
 
 function Home() {
   const [filesSystem, setFileSystem] = useState<Folder[]>([]);
@@ -11,7 +19,6 @@ function Home() {
   async function fetchFileSystem() {
     const fetchedData = await fetch("/api/getData").then((res) => res.json());
     const filteredData = filter(fetchedData);
-    console.log(filteredData);
     setFileSystem(filteredData);
   }
 
@@ -33,17 +40,14 @@ function Home() {
     };
   }, []);
 
-  return (
-    <>
-      <div>root</div>
-    </>
-  );
-}
-
-export default function () {
-  return (
-    <Layout>
-      <Home />
-    </Layout>
-  );
+  console.log(filesSystem, "files");
+  if (filesSystem.length === 0) {
+    return <LoadingSpinner />;
+  } else {
+    return (
+      <div>
+        <div>root</div>
+      </div>
+    );
+  }
 }
