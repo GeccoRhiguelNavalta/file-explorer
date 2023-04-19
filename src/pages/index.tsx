@@ -2,15 +2,14 @@ import Layout from "../layout/layout";
 import { useState, useEffect } from "react";
 import { Folder } from "./utils/types";
 import filter from "./utils/sort";
-import LoadingSpinner from "@/components/loadingSpinner";
-import { FaFolder } from "react-icons/fa";
 import Subfolder from "./subfolder";
 import Root from "./root";
+import { filteredFilesSys } from "./utils/filtered";
 
 function Home() {
   const [filesSystem, setFileSystem] = useState<Folder[]>([]);
-  const [clicked, setClicked] = useState<boolean>(false);
   const [matchData, setMatchData] = useState<Folder[]>([]);
+  const [clicked, setClicked] = useState<boolean>(false);
 
   //fetch data from backend
   async function fetchFileSystem() {
@@ -37,14 +36,9 @@ function Home() {
     };
   }, []);
 
-  //filters filessytem of with the same id and prop drill to subfolder
-  function filteredFilesSys(id: string, filesSystem: Folder[]) {
-    return filesSystem.filter((match) => match.id === id);
-  }
-
   //handle click on folder
-  function handleClick(id: string) {
-    const subfolderProps = filteredFilesSys(id, filesSystem);
+  function handleClick(id: string, arr: Folder[]) {
+    const subfolderProps = filteredFilesSys(id, arr);
     setMatchData(subfolderProps);
     setClicked(true);
   }
@@ -52,7 +46,7 @@ function Home() {
   if (!clicked) {
     return (
       <>
-        <h1>root</h1>
+        <h1>Root</h1>
         <Root
           filesSystem={filesSystem}
           setClicked={setClicked}
@@ -63,8 +57,9 @@ function Home() {
   } else {
     return (
       <>
-        <h1>subfolder</h1>
-        <Subfolder matchData={matchData} />
+        <h1>Subfolder</h1>
+        <button onClick={() => setClicked(false)}>Back</button>
+        <Subfolder matchData={matchData} handleClick={handleClick} />
       </>
     );
   }

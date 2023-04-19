@@ -5,7 +5,7 @@ import { Folder } from "./utils/types";
 type RootProps = {
   filesSystem: Folder[];
   setClicked: Dispatch<SetStateAction<boolean>>;
-  handleClick: (id: string) => void;
+  handleClick: (id: string, arr: Folder[]) => void;
 };
 
 export default function Root({
@@ -27,7 +27,7 @@ export default function Root({
               <FaFolder
                 size="100px"
                 color="skyblue"
-                onClick={() => handleClick(i.id)}
+                onClick={() => handleClick(i.id, filesSystem)}
               />
               <div>{i.name}</div>
             </div>
