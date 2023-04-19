@@ -1,15 +1,16 @@
 import Layout from "../layout/layout";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import { Folder } from "./utils/types";
 import filter from "./utils/sort";
 import LoadingSpinner from "@/components/loadingSpinner";
 import { FaFolder } from "react-icons/fa";
 import Subfolder from "./subfolder";
+import Root from "./root";
 
 function Home() {
   const [filesSystem, setFileSystem] = useState<Folder[]>([]);
-  const router = useRouter();
+  const [clicked, setClicked] = useState<boolean>(false);
+  const [matchData, setMatchData] = useState<Folder[]>([]);
 
   //fetch data from backend
   async function fetchFileSystem() {
@@ -36,34 +37,28 @@ function Home() {
     };
   }, []);
 
-  //handle click on folder
-  function handleClick(id: string) {
-    router.push("/subfolder");
-    // return <Subfolder id
+  //filters filessytem of with the same id and prop drill to subfolder
+  function filteredFilesSys(id: string, filesSystem: Folder[]) {
+    return filesSystem.filter((match) => match.id === id);
   }
 
-  if (filesSystem.length === 0) {
-    return <LoadingSpinner />;
-  } else {
+  //handle click on folder
+  function handleClick(id: string) {
+    const subfolderProps = filteredFilesSys(id, filesSystem);
+    setMatchData(subfolderProps);
+    setClicked(true);
+  }
+
+  if (!clicked) {
     return (
-      <div className="grid grid-cols-5 gap-5">
-        {filesSystem.map((i) => {
-          return (
-            <div
-              className="grid grid-rows-2 w-[100px] justify-center items-center"
-              key={i.id}
-            >
-              <FaFolder
-                size="100px"
-                color="skyblue"
-                onClick={() => handleClick(i.id)}
-              />
-              <div>{i.name}</div>
-            </div>
-          );
-        })}
-      </div>
+      <Root
+        filesSystem={filesSystem}
+        setClicked={setClicked}
+        handleClick={handleClick}
+      />
     );
+  } else {
+    return <Subfolder matchData={matchData} />;
   }
 }
 
