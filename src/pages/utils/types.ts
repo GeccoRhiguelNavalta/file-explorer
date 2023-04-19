@@ -7,6 +7,7 @@ export type Data = {
 };
 
 export type Folder = {
+  type: "folder";
   id: string;
   name: string;
   subfolders: Folder[];
@@ -14,6 +15,7 @@ export type Folder = {
 };
 
 export type File = {
+  type: "file";
   id: string;
   name: string;
   ext?: string;

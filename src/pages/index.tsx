@@ -51,14 +51,22 @@ function Home() {
 
   if (!clicked) {
     return (
-      <Root
-        filesSystem={filesSystem}
-        setClicked={setClicked}
-        handleClick={handleClick}
-      />
+      <>
+        <h1>root</h1>
+        <Root
+          filesSystem={filesSystem}
+          setClicked={setClicked}
+          handleClick={handleClick}
+        />
+      </>
     );
   } else {
-    return <Subfolder matchData={matchData} />;
+    return (
+      <>
+        <h1>subfolder</h1>
+        <Subfolder matchData={matchData} />
+      </>
+    );
   }
 }
 

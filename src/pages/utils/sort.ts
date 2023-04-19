@@ -20,6 +20,7 @@ export default function filter(data: Data[]): Folder[] {
     if (item.type === "folder" && item.parent === null) {
       // Root folder
       const folder: Folder = {
+        type: item.type,
         id: item.id,
         name: item.name,
         subfolders: [],
@@ -31,6 +32,7 @@ export default function filter(data: Data[]): Folder[] {
       // Subfolder
       const parentFolder = foldersById[item.parent];
       const folder: Folder = {
+        type: item.type,
         id: item.id,
         name: item.name,
         subfolders: [],
@@ -42,6 +44,7 @@ export default function filter(data: Data[]): Folder[] {
       // File
       const parentFolder = foldersById[item.parent];
       const file: File = {
+        type: item.type,
         id: item.id,
         name: item.name,
         ext: item.ext,
