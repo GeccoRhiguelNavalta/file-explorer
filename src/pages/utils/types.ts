@@ -22,3 +22,8 @@ export type File = {
   name: string;
   ext?: string;
 };
+
+export type Dimensions = {
+  dynamicWidth: number;
+  dynamicHeight: number;
+};

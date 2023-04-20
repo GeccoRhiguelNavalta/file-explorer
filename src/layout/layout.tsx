@@ -3,8 +3,10 @@ import { PropsWithChildren } from "react";
 export default function Layout({ children }: PropsWithChildren) {
   return (
     <div className="w-[100%] flex flex-col justify-center items-center">
-      <h1 className="mt-10 mb-10 text-[50px] font-bold">FILE EXPLORER</h1>
-      <div className="w-[1200px] h-[650px] border-gray-700 bg-slate-400 shadow-lg rounded-md justify-center items-center p-10 overflow-scroll">
+      <h1 className="md:mt-10 mt-5 md:mb-10 mb-5 md:text-[50px] text-[25px] font-medium md:font-bold">
+        FILE EXPLORER
+      </h1>
+      <div className="md:w-[1200px] w-[300px] md:h-[650px] h-[550px] border bg-slate-200 shadow-lg rounded-md justify-center items-center md:p-10 p-5 overflow-scroll">
         {children}
       </div>
     </div>
