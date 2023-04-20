@@ -1,11 +1,11 @@
 import LoadingSpinner from "@/components/loadingSpinner";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { FaFolder } from "react-icons/fa";
 import { Folder } from "./utils/types";
 type RootProps = {
   filesSystem: Folder[];
   setClicked: Dispatch<SetStateAction<boolean>>;
-  handleClick: (id: string, arr: Folder[]) => void;
+  handleClick: (i: Folder, arr: Folder[]) => void;
 };
 
 export default function Root({
@@ -27,7 +27,7 @@ export default function Root({
               <FaFolder
                 size="100px"
                 color="skyblue"
-                onClick={() => handleClick(i.id, filesSystem)}
+                onClick={() => handleClick(i, filesSystem)}
               />
               <div>{i.name}</div>
             </div>

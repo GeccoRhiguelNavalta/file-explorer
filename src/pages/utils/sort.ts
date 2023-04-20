@@ -10,7 +10,7 @@
 
 import { Data, Folder, File } from "./types";
 
-export default function filter(data: Data[]): Folder[] {
+export default function sort(data: Data[]): Folder[] {
   const rootFolders: Folder[] = [];
 
   // Map of folder IDs to their corresponding folder objects
@@ -20,6 +20,7 @@ export default function filter(data: Data[]): Folder[] {
     if (item.type === "folder" && item.parent === null) {
       // Root folder
       const folder: Folder = {
+        parent: item.parent,
         type: item.type,
         id: item.id,
         name: item.name,
@@ -32,6 +33,7 @@ export default function filter(data: Data[]): Folder[] {
       // Subfolder
       const parentFolder = foldersById[item.parent];
       const folder: Folder = {
+        parent: item.parent,
         type: item.type,
         id: item.id,
         name: item.name,
@@ -44,6 +46,7 @@ export default function filter(data: Data[]): Folder[] {
       // File
       const parentFolder = foldersById[item.parent];
       const file: File = {
+        parent: item.parent,
         type: item.type,
         id: item.id,
         name: item.name,
