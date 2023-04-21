@@ -106,18 +106,26 @@ function Home({
       return <LoadingSpinner />;
     } else {
       return (
-        <div className="grid md:grid-cols-5 grid-rows-5 grid-cols-2 place-items-center place-content-center">
+        <div
+          className="grid md:grid-cols-5 grid-rows-5 grid-cols-2 place-items-center place-content-center"
+          role="navigation"
+          aria-label="File System Navigation"
+        >
           {filesSystem.map((i) => {
             return (
               <div
                 className="flex justify-center md:h-[190px] h-[100px] md:w-[150px] w-[90px] rounded-md items-center hover:bg-slate-300
                active:bg-blue-200 focus:outline-none focus:ring focus:ring-blue-300 p-2"
+                role="link"
+                aria-label={`Open ${i.name}`}
                 key={i.id}
               >
                 <div className="grid grid-rows-2 md:h-[120px] md:w-[100px] h-[100px] w-[90px] place-items-center place-content-center">
                   <FaFolder
                     size={folderfileSize(screenSize)}
                     color="skyblue"
+                    role="img"
+                    aria-label={`Folder ${i.name}`}
                     onClick={() => handleClick(i)}
                   />
                   <div className=" md:w-[100px] w-[50px] h-[30px] md:text-base text-[12px] font-light md:font-normal text-center truncate">
@@ -136,15 +144,23 @@ function Home({
       return <LoadingSpinner />;
     } else {
       return (
-        <div className="grid md:grid-cols-5 grid-rows-5 grid-cols-2 place-items-center place-content-center">
+        <div
+          className="grid md:grid-cols-5 grid-rows-5 grid-cols-2 place-items-center place-content-center"
+          role="navigation"
+          aria-label="File System Navigation"
+        >
           <div
             className="flex flex-col justify-center md:h-[190px] h-[100px] md:w-[150px] w-[90px] rounded-md items-center hover:bg-slate-300
             active:bg-blue-200 focus:outline-none focus:ring focus:ring-blue-300 p-2"
+            role="link"
+            aria-label="Go to root folders"
           >
             <FaHome
               size={folderfileSize(screenSize)}
               color="skyblue"
               onClick={() => setClicked(false)}
+              role="img"
+              aria-label="Home"
             />
             <div className=" md:w-[100px] w-[50px] h-[30px] md:text-base text-[12px] font-light md:font-normal text-center">
               Root Folders
@@ -153,13 +169,21 @@ function Home({
           <div
             className="flex flex-col justify-center md:h-[190px] h-[100px] md:w-[150px] w-[90px] rounded-md items-center hover:bg-slate-300
             active:bg-blue-200 focus:outline-none focus:ring focus:ring-blue-300 p-2"
+            role="button"
+            aria-label="Go back to previous folder"
           >
             <FaBackward
               size={folderfileSize(screenSize)}
               color="skyblue"
+              aria-label="Go back"
+              role="button"
               onClick={() => backHandleClick(prev)}
             />
-            <div className=" md:w-[100px] w-[50px] h-[30px] md:text-base text-[12px] font-light md:font-normal text-center">
+            <div
+              className=" md:w-[100px] w-[50px] h-[30px] md:text-base text-[12px] font-light md:font-normal text-center"
+              role="text"
+              aria-label="Back"
+            >
               Back
             </div>
           </div>
@@ -169,6 +193,8 @@ function Home({
                 className="flex justify-center md:h-[190px] h-[100px] md:w-[150px] w-[90px] rounded-md items-center hover:bg-slate-300
                 active:bg-blue-200 focus:outline-none focus:ring focus:ring-blue-300 p-2"
                 key={i.id}
+                role="button"
+                aria-label={`${i.name} folder`}
               >
                 <div className="grid grid-rows-2 md:h-[120px] md:w-[100px] h-[100px] w-[90px] place-items-center place-content-center">
                   <FaFolder
@@ -176,7 +202,11 @@ function Home({
                     color="skyblue"
                     onClick={() => handleClick(i)}
                   />
-                  <div className="md:w-[100px] w-[50px] h-[30px] md:text-base text-[12px] font-light md:font-normal text-center truncate">
+                  <div
+                    className="md:w-[100px] w-[50px] h-[30px] md:text-base text-[12px] font-light md:font-normal text-center truncate"
+                    role="text"
+                    aria-label={i.name}
+                  >
                     {i.name}
                   </div>
                 </div>
@@ -189,10 +219,16 @@ function Home({
                 className="flex justify-center md:h-[190px] h-[100px] md:w-[150px] w-[90px] rounded-md items-center hover:bg-slate-300
                 active:bg-blue-200 focus:outline-none focus:ring focus:ring-blue-300 p-2"
                 key={i.id}
+                role="button"
+                aria-label={`${i.name} file`}
               >
                 <div className="grid grid-rows-2 md:h-[120px] md:w-[100px] h-[100px] w-[90px] place-items-center place-content-center">
                   <FaFile size={folderfileSize(screenSize)} color="white" />
-                  <div className="md:w-[100px] w-[50px] h-[30px] md:text-base text-[12px] font-light md:font-normal text-center truncate">
+                  <div
+                    className="md:w-[100px] w-[50px] h-[30px] md:text-base text-[12px] font-light md:font-normal text-center truncate"
+                    role="text"
+                    aria-label={i.ext ? `${i.name}.${i.ext}` : i.name}
+                  >
                     {i.ext ? `${i.name}.${i.ext}` : i.name}
                   </div>
                 </div>
