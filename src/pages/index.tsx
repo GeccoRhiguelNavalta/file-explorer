@@ -33,33 +33,33 @@ function Home({
   const [filesSystem, setFileSystem] = useState<Folder[]>([]);
   const [matchData, setMatchData] = useState<Folder[]>([]);
   const [clicked, setClicked] = useState<boolean>(false);
-  const [sub, setSub] = useState<number>(0);
   const [prev, setPrev] = useState<Folder[]>([]);
   const [screenSize, getDimension] = useState<Dimensions>({
     dynamicWidth: 0,
     dynamicHeight: 0,
   });
+
+  //get current window size to change svg sizes for mobile responsive
   const setDimension = () => {
     getDimension({
       dynamicWidth: window.innerWidth,
       dynamicHeight: window.innerHeight,
     });
   };
-
   useEffect(() => {
     window.addEventListener("resize", setDimension);
-
     return () => {
       window.removeEventListener("resize", setDimension);
     };
   }, [screenSize]);
 
   const folderfileSize = (screenSize: Dimensions) => {
-    return screenSize.dynamicWidth === 390 && screenSize.dynamicHeight === 844
+    return screenSize.dynamicWidth === 375 && screenSize.dynamicHeight === 667
       ? "50px"
       : "80px";
   };
 
+  //sort folders and files ready for DoM render
   async function fetchFileSystem(data: Data[]) {
     const filteredData = sort(data);
     setFileSystem(filteredData);
@@ -71,7 +71,6 @@ function Home({
     const interval = setInterval(() => {
       fetchFileSystem(data);
     }, 30000);
-
     window.addEventListener("focus", () => {
       fetchFileSystem(data);
     });
@@ -83,12 +82,14 @@ function Home({
     };
   }, [data]);
 
+  //handle forward recursive clicks into folders
   function handleClick(i: Folder) {
     setPrev((prev) => [...prev, i]);
     setMatchData([i]);
     setClicked(true);
   }
 
+  //handle outward recursive clicks out of folders
   function backHandleClick(prev: Folder[]) {
     const newPrev = prev.slice(0, -1);
     if (newPrev.length === 0) {
@@ -251,6 +252,7 @@ export default function a({
   );
 }
 
+//server side rendering to avoid data === unidentified
 export const getServerSideProps: GetServerSideProps<{ data: Data[] }> = async (
   context
 ) => {

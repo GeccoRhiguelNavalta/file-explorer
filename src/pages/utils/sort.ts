@@ -8,6 +8,7 @@ export type File = {
   ext?: string;
 };
 
+//bulk of the sorting function to allow monolyth to be less crowded
 export default function sort(data: Data[]): Folder[] {
   const rootFolders: Folder[] = [];
 
