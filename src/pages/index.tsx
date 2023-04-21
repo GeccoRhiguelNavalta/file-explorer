@@ -33,7 +33,7 @@ function Home({
   const [filesSystem, setFileSystem] = useState<Folder[]>([]);
   const [matchData, setMatchData] = useState<Folder[]>([]);
   const [clicked, setClicked] = useState<boolean>(false);
-  const [sub, setSub] = useState<boolean>(false);
+  const [sub, setSub] = useState<number>(0);
   const [prev, setPrev] = useState<Folder[]>([]);
   const [screenSize, getDimension] = useState<Dimensions>({
     dynamicWidth: 0,
@@ -60,9 +60,7 @@ function Home({
       : "80px";
   };
 
-  //fetch data from backend
   async function fetchFileSystem(data: Data[]) {
-    console.log(data, "data");
     const filteredData = sort(data);
     setFileSystem(filteredData);
   }
@@ -85,28 +83,21 @@ function Home({
     };
   }, [data]);
 
-  //handle click on folder
   function handleClick(i: Folder) {
-    if (sub === false) {
-      setPrev([i]);
-      setMatchData([i]);
-      setClicked(true);
-    } else {
-      setMatchData([i]);
-      setSub(false);
-    }
+    setPrev((prev) => [...prev, i]);
+    setMatchData([i]);
+    setClicked(true);
   }
 
   function backHandleClick(prev: Folder[]) {
-    if (prev[0].parent === null || undefined) {
+    const newPrev = prev.slice(0, -1);
+    if (newPrev.length === 0) {
       setClicked(false);
-      setPrev([]);
     } else {
-      const parentFolder = filesSystem.filter(
-        (folder) => prev[0]?.parent === folder.id
-      );
-      setMatchData(prev);
-      setPrev(parentFolder);
+      const prevFolder = newPrev[newPrev.length - 1];
+      setMatchData([prevFolder]);
+      setPrev(newPrev);
+      setClicked(true);
     }
   }
 
