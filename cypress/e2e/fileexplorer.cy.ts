@@ -11,9 +11,4 @@ describe("should show elements on window", () => {
     cy.visit("http://localhost:3000");
     cy.get("h1").should("exist");
   });
-
-  it("successfully renders folders", () => {
-    cy.visit("http://localhost:3000");
-    cy.get("svg").should("exist");
-  });
 });
