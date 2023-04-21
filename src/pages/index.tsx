@@ -75,6 +75,7 @@ function Home({
   //fetch the data every 30 secs when user revisits the app window
   useEffect(() => {
     fetchFileSystem(data);
+    refetchFileSystem();
     const interval = setInterval(() => {
       refetchFileSystem();
     }, 30000);
