@@ -1,15 +1,16 @@
 import Layout from "../layout/layout";
 import { useState, useEffect } from "react";
 import { Folder, Dimensions } from "./utils/types";
-import { filteredFilesSys } from "./utils/filtered";
 import sort from "./utils/sort";
 import LoadingSpinner from "@/components/loadingSpinner";
-import { FaFile, FaFolder, FaHome } from "react-icons/fa";
+import { FaFile, FaFolder, FaHome, FaBackward } from "react-icons/fa";
 
 function Home() {
   const [filesSystem, setFileSystem] = useState<Folder[]>([]);
   const [matchData, setMatchData] = useState<Folder[]>([]);
   const [clicked, setClicked] = useState<boolean>(false);
+  const [sub, setSub] = useState<boolean>(false);
+  const [prev, setPrev] = useState<Folder[]>([]);
   const [screenSize, getDimension] = useState<Dimensions>({
     dynamicWidth: 0,
     dynamicHeight: 0,
@@ -62,14 +63,26 @@ function Home() {
 
   //handle click on folder
   function handleClick(i: Folder) {
-    if (i.parent === null) {
-      const rootMatch = filteredFilesSys(i.id, filesSystem);
-      setMatchData(rootMatch);
+    if (sub === false) {
+      setPrev([i]);
+      setMatchData([i]);
       setClicked(true);
     } else {
-      const matched = [i];
-      setMatchData(matched);
-      setClicked(true);
+      setMatchData([i]);
+      setSub(false);
+    }
+  }
+
+  function backHandleClick(prev: Folder[]) {
+    if (prev[0].parent === null || undefined) {
+      setClicked(false);
+      setPrev([]);
+    } else {
+      const parentFolder = filesSystem.filter(
+        (folder) => prev[0]?.parent === folder.id
+      );
+      setMatchData(prev);
+      setPrev(parentFolder);
     }
   }
 
@@ -104,6 +117,7 @@ function Home() {
     }
   } else {
     if (matchData.length === 0) {
+      setClicked(false);
       return <LoadingSpinner />;
     } else {
       return (
@@ -119,6 +133,19 @@ function Home() {
             />
             <div className=" md:w-[100px] w-[50px] h-[30px] md:text-base text-[12px] font-light md:font-normal text-center">
               Root Folders
+            </div>
+          </div>
+          <div
+            className="flex flex-col justify-center md:h-[190px] h-[100px] md:w-[150px] w-[90px] rounded-md items-center hover:bg-slate-300
+            active:bg-blue-200 focus:outline-none focus:ring focus:ring-blue-300 p-2"
+          >
+            <FaBackward
+              size={folderfileSize(screenSize)}
+              color="skyblue"
+              onClick={() => backHandleClick(prev)}
+            />
+            <div className=" md:w-[100px] w-[50px] h-[30px] md:text-base text-[12px] font-light md:font-normal text-center">
+              Back
             </div>
           </div>
           {matchData[0].subfolders.map((i) => {
