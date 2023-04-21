@@ -1,19 +1,21 @@
 name: Cypress Tests
 
-on: push
+on: [push]
 
 jobs:
-  cypress-run:
+  install:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
+        uses: actions/checkout@v2
+
       - name: Cypress run
-        uses: cypress-io/github-action@v5.4.0
+        uses: cypress-io/github-action@v3
         with:
+          project: ./site
+          browser: chrome
           build: npm run build
           start: npm run dev
+          wait-on: "http://localhost:3000"
+          env:
+          SECRET_API_KEY: ${{ secrets.SECRET_API_KEY }}
