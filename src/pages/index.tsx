@@ -60,24 +60,31 @@ function Home({
   };
 
   //sort folders and files ready for DoM render
-  async function fetchFileSystem(data: Data[]) {
+  function fetchFileSystem(data: Data[]) {
     const filteredData = sort(data);
     setFileSystem(filteredData);
   }
 
-  //fecth the data every 30 secs when user revisits the app window
+  //refetch function
+  async function refetchFileSystem() {
+    const refetchedData = await fetch("/api/refetch").then((res) => res.json());
+    const refilteredData = sort(refetchedData);
+    setFileSystem(refilteredData);
+  }
+
+  //fetch the data every 30 secs when user revisits the app window
   useEffect(() => {
     fetchFileSystem(data);
     const interval = setInterval(() => {
-      fetchFileSystem(data);
+      refetchFileSystem();
     }, 30000);
     window.addEventListener("focus", () => {
-      fetchFileSystem(data);
+      refetchFileSystem();
     });
     return () => {
       clearInterval(interval);
       window.removeEventListener("focus", () => {
-        fetchFileSystem(data);
+        refetchFileSystem();
       });
     };
   }, [data]);
