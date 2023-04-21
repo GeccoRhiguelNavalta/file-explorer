@@ -1,11 +1,35 @@
 import Layout from "../layout/layout";
 import { useState, useEffect } from "react";
-import { Folder, Dimensions } from "./utils/types";
-import sort from "./utils/sort";
+import sort, { File } from "./utils/sort";
 import LoadingSpinner from "@/components/loadingSpinner";
 import { FaFile, FaFolder, FaHome, FaBackward } from "react-icons/fa";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 
-function Home() {
+export type Folder = {
+  parent?: string | null;
+  type: "folder";
+  id: string;
+  name: string;
+  subfolders: Folder[];
+  files: File[];
+};
+
+export type Data = {
+  id: string;
+  type: "folder" | "file";
+  parent: string | null;
+  name: string;
+  ext?: string;
+};
+
+export type Dimensions = {
+  dynamicWidth: number;
+  dynamicHeight: number;
+};
+
+function Home({
+  data,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [filesSystem, setFileSystem] = useState<Folder[]>([]);
   const [matchData, setMatchData] = useState<Folder[]>([]);
   const [clicked, setClicked] = useState<boolean>(false);
@@ -31,35 +55,35 @@ function Home() {
   }, [screenSize]);
 
   const folderfileSize = (screenSize: Dimensions) => {
-    return screenSize.dynamicWidth === 375 && screenSize.dynamicHeight === 667
+    return screenSize.dynamicWidth === 390 && screenSize.dynamicHeight === 844
       ? "50px"
       : "80px";
   };
 
   //fetch data from backend
-  async function fetchFileSystem() {
-    const fetchedData = await fetch("/api/getData").then((res) => res.json());
-    const filteredData = sort(fetchedData);
+  async function fetchFileSystem(data: Data[]) {
+    console.log(data, "data");
+    const filteredData = sort(data);
     setFileSystem(filteredData);
   }
 
   //fecth the data every 30 secs when user revisits the app window
   useEffect(() => {
-    fetchFileSystem();
+    fetchFileSystem(data);
     const interval = setInterval(() => {
-      fetchFileSystem();
+      fetchFileSystem(data);
     }, 30000);
 
     window.addEventListener("focus", () => {
-      fetchFileSystem();
+      fetchFileSystem(data);
     });
     return () => {
       clearInterval(interval);
       window.removeEventListener("focus", () => {
-        fetchFileSystem();
+        fetchFileSystem(data);
       });
     };
-  }, []);
+  }, [data]);
 
   //handle click on folder
   function handleClick(i: Folder) {
@@ -190,10 +214,28 @@ function Home() {
   }
 }
 
-export default function a() {
+export default function a({
+  data,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <Layout>
-      <Home />
+      <Home data={data} />
     </Layout>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<{ data: Data[] }> = async (
+  context
+) => {
+  const data = await fetch("https://dev.test.sega.co.uk/api/list", {
+    headers: {
+      "x-secret-api-key": process.env.SECRET_API_KEY!,
+    },
+  }).then((res) => res.json());
+
+  return {
+    props: {
+      data,
+    },
+  };
+};
