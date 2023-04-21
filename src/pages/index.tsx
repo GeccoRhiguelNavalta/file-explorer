@@ -190,7 +190,7 @@ function Home() {
   }
 }
 
-export default function () {
+export default function a() {
   return (
     <Layout>
       <Home />
