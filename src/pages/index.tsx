@@ -46,18 +46,18 @@ function Home({
       dynamicHeight: window.innerHeight,
     });
   };
+
+  const folderfileSize = (screenSize: Dimensions) => {
+    return screenSize.dynamicWidth < 425 && screenSize.dynamicHeight < 850
+      ? "50px"
+      : "80px";
+  };
   useEffect(() => {
     window.addEventListener("resize", setDimension);
     return () => {
       window.removeEventListener("resize", setDimension);
     };
   }, [screenSize]);
-
-  const folderfileSize = (screenSize: Dimensions) => {
-    return screenSize.dynamicWidth <= 390 && screenSize.dynamicHeight <= 844
-      ? "50px"
-      : "80px";
-  };
 
   //sort folders and files ready for DoM render
   function fetchFileSystem(data: Data[]) {
@@ -167,7 +167,10 @@ function Home({
             <FaHome
               size={folderfileSize(screenSize)}
               color="skyblue"
-              onClick={() => setClicked(false)}
+              onClick={() => {
+                setClicked(false);
+                setPrev([]);
+              }}
               role="img"
               aria-label="Home"
             />
