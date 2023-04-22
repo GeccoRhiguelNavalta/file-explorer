@@ -11,7 +11,7 @@ export default function Layout({ children }: PropsWithChildren) {
         FILE EXPLORER
       </h1>
       <div
-        className="md:w-[1200px] w-[300px] md:h-[650px] h-[550px] border bg-slate-200 shadow-lg rounded-md justify-center items-center md:p-10 p-5 overflow-scroll"
+        className="md:w-[1200px] w-[300px] md:h-[650px] h-[550px] border bg-slate-200 shadow-lg rounded-md justify-center items-center md:pb-10 pb-5 overflow-scroll"
         role="region"
         aria-label="File Explorer file and folder list"
       >
