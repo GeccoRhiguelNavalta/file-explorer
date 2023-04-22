@@ -117,10 +117,10 @@ function Home({
     } else {
       return (
         <>
-          <div className="md:w-[1200px] w-[300px] h-[50px] bg-slate-100 shadow rounded p-3 flex justify-start items-center">
+          <div className="md:w-[1200px] w-[300px] md:h-[50px] h-[30px] bg-slate-100 shadow rounded p-3 flex justify-start items-center mb-5 md:mb-10 overflow-hidden">
             <FaHome
               size="25px"
-              color="skyblue"
+              color="grey"
               onClick={() => {
                 setClicked(false);
                 setPrev([]);
@@ -130,7 +130,7 @@ function Home({
             />
             <FaChevronLeft
               size="25px"
-              color="skyblue"
+              color="grey"
               aria-label="Go back"
               role="button"
               onClick={() => backHandleClick(prev)}
@@ -177,10 +177,10 @@ function Home({
     } else {
       return (
         <>
-          <div className="md:w-[1200px] w-[300px] h-[50px] bg-slate-100 shadow rounded p-3 flex justify-start items-center">
+          <div className="md:w-[1200px] w-[300px] md:h-[50px] h-[30px] bg-slate-100 shadow rounded p-3 flex justify-start items-center mb-5 md:mb-10 overflow-hidden">
             <FaHome
               size="25px"
-              color="skyblue"
+              color="grey"
               onClick={() => {
                 setClicked(false);
                 setPrev([]);
@@ -190,7 +190,7 @@ function Home({
             />
             <FaChevronLeft
               size="25px"
-              color="skyblue"
+              color="grey"
               aria-label="Go back"
               role="button"
               onClick={() => backHandleClick(prev)}
