@@ -1,6 +1,6 @@
 ### File Explorer app
 
-![alt text](https://github.com/GeccoRhiguelNavalta/file-explorer/blob/main/file-explorer/assets/demo.mov)
+![demo](/assets/demo.mov)
 
 deployed link: https://file-explorer-chi.vercel.app/
 
