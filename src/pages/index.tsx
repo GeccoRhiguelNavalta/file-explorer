@@ -103,6 +103,7 @@ function Home({
     const newPrev = prev.slice(0, -1);
     if (newPrev.length === 0) {
       setClicked(false);
+      setPrev([]);
     } else {
       const prevFolder = newPrev[newPrev.length - 1];
       setMatchData([prevFolder]);
@@ -117,24 +118,26 @@ function Home({
     } else {
       return (
         <>
-          <div className="md:w-[1200px] w-[300px] md:h-[50px] h-[30px] bg-slate-100 shadow rounded p-3 flex justify-start items-center mb-5 md:mb-10 overflow-hidden">
-            <FaHome
-              size="25px"
-              color="grey"
-              onClick={() => {
-                setClicked(false);
-                setPrev([]);
-              }}
-              role="img"
-              aria-label="Home"
-            />
-            <FaChevronLeft
-              size="25px"
-              color="grey"
-              aria-label="Go back"
-              role="button"
-              onClick={() => backHandleClick(prev)}
-            />
+          <div className="md:w-[1200px] w-[300px] h-[50px] bg-stone-100 sticky shadow p-3 grid grid-cols-[100px,auto] place-content-start place-items-start mb-5 md:mb-10 ">
+            <div className="flex flex-row gap-2">
+              <FaHome
+                size="25px"
+                color="grey"
+                onClick={() => {
+                  setClicked(false);
+                  setPrev([]);
+                }}
+                role="img"
+                aria-label="Home"
+              />
+              <FaChevronLeft
+                size="25px"
+                color="grey"
+                aria-label="Go back"
+                role="button"
+                onClick={() => backHandleClick(prev)}
+              />
+            </div>
             <Breadcrumb prev={prev} />
           </div>
           <div
@@ -177,25 +180,29 @@ function Home({
     } else {
       return (
         <>
-          <div className="md:w-[1200px] w-[300px] md:h-[50px] h-[30px] bg-slate-100 shadow rounded p-3 flex justify-start items-center mb-5 md:mb-10 overflow-hidden">
-            <FaHome
-              size="25px"
-              color="grey"
-              onClick={() => {
-                setClicked(false);
-                setPrev([]);
-              }}
-              role="img"
-              aria-label="Home"
-            />
-            <FaChevronLeft
-              size="25px"
-              color="grey"
-              aria-label="Go back"
-              role="button"
-              onClick={() => backHandleClick(prev)}
-            />
-            <Breadcrumb prev={prev} />
+          <div className="md:w-[1200px] w-[300px] h-[50px] bg-stone-100 sticky shadow p-3 grid grid-cols-[80px,150px] md:grid-cols-[100px,1100px] place-content-start place-items-start mb-5 md:mb-10 overflow-ellipsis">
+            <div className="flex flex-row gap-2">
+              <FaHome
+                size="25px"
+                color="dark-white"
+                onClick={() => {
+                  setClicked(false);
+                  setPrev([]);
+                }}
+                role="img"
+                aria-label="Home"
+              />
+              <FaChevronLeft
+                size="25px"
+                color="grey"
+                aria-label="Go back"
+                role="button"
+                onClick={() => backHandleClick(prev)}
+              />
+            </div>
+            <div className="flex overflow-hidden ">
+              <Breadcrumb prev={prev} />
+            </div>
           </div>
           <div
             className="grid md:grid-cols-5 grid-rows-5 grid-cols-2 place-items-center place-content-center"

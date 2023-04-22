@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  background-color: #fcfcfc;
+  opacity: 1;
+  background: linear-gradient(135deg, #f2f1f455 25%, transparent 25%) -22px 0/
+      44px 44px,
+    linear-gradient(225deg, #f2f1f4 25%, transparent 25%) -22px 0/ 44px 44px,
+    linear-gradient(315deg, #f2f1f455 25%, transparent 25%) 0px 0/ 44px 44px,
+    linear-gradient(45deg, #f2f1f4 25%, #fcfcfc 25%) 0px 0/ 44px 44px;
+}
