@@ -1,6 +1,7 @@
 ### File Explorer app
 
-![demo](/assets/demo.mov)
+![demo1](/assets/demo1.png)
+![demo1](/assets/demo2.png)
 
 deployed link: https://file-explorer-chi.vercel.app/
 
