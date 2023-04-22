@@ -2,7 +2,7 @@ import Layout from "../layout/layout";
 import { useState, useEffect } from "react";
 import sort, { File } from "./utils/sort";
 import LoadingSpinner from "@/components/loadingSpinner";
-import { FaFile, FaFolder, FaHome, FaBackward } from "react-icons/fa";
+import { FaFileAlt, FaFolder, FaHome, FaBackward } from "react-icons/fa";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 
 export type Folder = {
@@ -235,7 +235,7 @@ function Home({
                 aria-label={`${i.name} file`}
               >
                 <div className="grid grid-rows-2 md:h-[120px] md:w-[100px] h-[100px] w-[90px] place-items-center place-content-center">
-                  <FaFile size={folderfileSize(screenSize)} color="white" />
+                  <FaFileAlt size={folderfileSize(screenSize)} color="white" />
                   <div
                     className="md:w-[100px] w-[50px] h-[30px] md:text-base text-[12px] font-light md:font-normal text-center truncate"
                     role="text"
