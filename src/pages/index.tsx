@@ -54,7 +54,7 @@ function Home({
   }, [screenSize]);
 
   const folderfileSize = (screenSize: Dimensions) => {
-    return screenSize.dynamicWidth === 375 && screenSize.dynamicHeight === 667
+    return screenSize.dynamicWidth <= 390 && screenSize.dynamicHeight <= 844
       ? "50px"
       : "80px";
   };
