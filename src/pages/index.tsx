@@ -35,30 +35,34 @@ function Home({
   const [matchData, setMatchData] = useState<Folder[]>([]);
   const [clicked, setClicked] = useState<boolean>(false);
   const [prev, setPrev] = useState<Folder[]>([]);
-  const [screenSize, getDimension] = useState<Dimensions>({
+  const [screenSize, setScreenSize] = useState<Dimensions>({
     dynamicWidth: 0,
     dynamicHeight: 0,
   });
 
-  //get current window size to change svg sizes for mobile responsive
-  const setDimension = () => {
-    getDimension({
-      dynamicWidth: window.innerWidth,
-      dynamicHeight: window.innerHeight,
-    });
-  };
-
+  //dynamically change sizes of files and folders svgs depending on screen size
   const folderfileSize = (screenSize: Dimensions) => {
     return screenSize.dynamicWidth < 425 && screenSize.dynamicHeight < 850
       ? "50px"
       : "80px";
   };
+
   useEffect(() => {
-    window.addEventListener("resize", setDimension);
-    return () => {
-      window.removeEventListener("resize", setDimension);
+    const handleResize = () => {
+      setScreenSize({
+        dynamicWidth: window.innerWidth,
+        dynamicHeight: window.innerHeight,
+      });
     };
-  }, [screenSize]);
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const size = folderfileSize(screenSize);
 
   //sort folders and files ready for DoM render
   function fetchFileSystem(data: Data[]) {
@@ -75,20 +79,20 @@ function Home({
 
   //fetch the data every 30 secs when user revisits the app window
   useEffect(() => {
-    fetchFileSystem(data);
-    refetchFileSystem();
-    const interval = setInterval(() => {
+    const fetchFileSystemAndUpdates = () => {
+      fetchFileSystem(data);
       refetchFileSystem();
-    }, 30000);
-    window.addEventListener("focus", () => {
-      refetchFileSystem();
-    });
-    return () => {
-      clearInterval(interval);
-      window.removeEventListener("focus", () => {
+      const interval = setInterval(refetchFileSystem, 30000);
+      const handleFocus = () => {
         refetchFileSystem();
-      });
+      };
+      window.addEventListener("focus", handleFocus);
+      return () => {
+        clearInterval(interval);
+        window.removeEventListener("focus", handleFocus);
+      };
     };
+    return fetchFileSystemAndUpdates();
   }, [data]);
 
   //handle forward recursive clicks into folders
@@ -156,7 +160,7 @@ function Home({
                 >
                   <div className="grid grid-rows-2 md:h-[120px] md:w-[100px] h-[100px] w-[90px] place-items-center place-content-center">
                     <FaFolder
-                      size={folderfileSize(screenSize)}
+                      size={size}
                       color="skyblue"
                       role="img"
                       aria-label={`Folder ${i.name}`}
@@ -220,7 +224,7 @@ function Home({
                 >
                   <div className="grid grid-rows-2 md:h-[120px] md:w-[100px] h-[100px] w-[90px] place-items-center place-content-center">
                     <FaFolder
-                      size={folderfileSize(screenSize)}
+                      size={size}
                       color="skyblue"
                       onClick={() => handleClick(i)}
                     />
@@ -245,10 +249,7 @@ function Home({
                   aria-label={`${i.name} file`}
                 >
                   <div className="grid grid-rows-2 md:h-[120px] md:w-[100px] h-[100px] w-[90px] place-items-center place-content-center">
-                    <FaFileAlt
-                      size={folderfileSize(screenSize)}
-                      color="white"
-                    />
+                    <FaFileAlt size={size} color="white" />
                     <div
                       className="md:w-[100px] w-[50px] h-[30px] md:text-base text-[12px] font-light md:font-normal text-center truncate"
                       role="text"
